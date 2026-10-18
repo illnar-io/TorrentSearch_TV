@@ -77,7 +77,10 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    // Pinned, not enter-always: the back button must stay on screen. With an
+    // enter-always bar, scrolling a list hides the bar while its buttons remain
+    // focus targets, so D-pad navigation sends focus onto an off-screen control.
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val contentResolver = LocalContext.current.contentResolver
     val logsExportLocationChooser = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(TorrentSearchConstants.LOGS_FILE_TYPE),

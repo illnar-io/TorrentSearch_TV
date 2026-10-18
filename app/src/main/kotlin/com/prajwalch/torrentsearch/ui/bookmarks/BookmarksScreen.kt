@@ -97,7 +97,10 @@ fun BookmarksScreen(
     }
 
     val coroutineScope = rememberCoroutineScope()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    // Pinned, not enter-always: the back button must stay on screen. With an
+    // enter-always bar, scrolling a list hides the bar while its buttons remain
+    // focus targets, so D-pad navigation sends focus onto an off-screen control.
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
     val torrentListState = rememberTorrentListState(itemsCount = {
         val bookmarksState = uiState.bookmarksState
